@@ -14,7 +14,7 @@ def play_against(args):
                                  'EAST': args.east,
                                  'NORTH': args.north,
                                  'WEST': args.west}
-    players = load_models(card_play_model_path_dict)
+    players = load_models(card_play_model_path_dict, 'standard')  # update missing argument here 19-07-2022
     oracle = players['EAST']
     env = GameEnv(players)
     env.players['SOUTH'] = DummyAgent(env.game_infoset)  # replace agent
@@ -54,7 +54,7 @@ def play_against(args):
                     try:
                         if move == 'rec':  # have agent recommend a move for us
                             if oracle.__class__.__name__ == 'PPOAgent':
-                                # TODO: PPOAgent only supports top-1 move for now
+                                # PPOAgent only supports top-1 move for now
                                 rec_move = oracle.act(env.game_infoset, env.card_play_action_seq)
                                 print("Recommended move: {}" .format(hand_to_string(rec_move)))
                             else:
